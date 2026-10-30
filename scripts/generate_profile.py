@@ -121,8 +121,8 @@ def generate_languages(languages: Counter[str]) -> None:
             f'<text x="830" y="{y + 12}" fill="{colors[index]}">{pct:.1f}%</text>'
         )
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 275" role="img" aria-labelledby="title">
-<title id="title">Languages across public repositories</title><defs><style>text{{font:400 13px Inter,Arial,sans-serif;fill:#cbd5e1}}.bar{{animation:grow .8s ease both}}@keyframes grow{{from{{transform:scaleX(0);transform-origin:left}}to{{transform:scaleX(1)}}}}</style></defs>
-<rect width="100%" height="100%" rx="16" fill="#07111f"/><text x="28" y="28" fill="#86efac" font-family="monospace" font-size="12">LANGUAGES / PUBLIC REPOSITORIES</text><g>{''.join(bars)}</g>
+<title id="title">Languages across accessible repositories</title><defs><style>text{{font:400 13px Inter,Arial,sans-serif;fill:#cbd5e1}}.bar{{animation:grow .8s ease both}}@keyframes grow{{from{{transform:scaleX(0);transform-origin:left}}to{{transform:scaleX(1)}}}}</style></defs>
+<rect width="100%" height="100%" rx="16" fill="#07111f"/><text x="28" y="28" fill="#86efac" font-family="monospace" font-size="12">LANGUAGES / ACCESSIBLE REPOSITORIES (NAMES HIDDEN)</text><g>{''.join(bars)}</g>
 </svg>'''
     write(ASSETS / "language-chart.svg", svg)
 
@@ -133,7 +133,7 @@ def generate_stats(user: dict, repos: list[dict], total_contributions: int, lang
     metrics = [
         (str(total_contributions), "contributions / last year", "#22c55e"),
         (str(len(public)), "public repositories", "#38bdf8"),
-        (str(stars), "stars received", "#f59e0b"),
+        (str(len([repo for repo in repos if repo.get("private")])), "private repositories (count only)", "#fb7185"),
         (str(len(languages)), "languages detected", "#a78bfa"),
     ]
     cards = []
@@ -147,8 +147,8 @@ def generate_stats(user: dict, repos: list[dict], total_contributions: int, lang
 def main() -> None:
     query = """query { viewer { login name contributionsCollection { contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } } } } }"""
     viewer = graphql(query)["viewer"]
-    repos = request("https://api.github.com/user/repos?per_page=100&sort=updated")
-    repos = [repo for repo in repos if not repo.get("private")]
+    repos = request("https://api.github.com/user/repos?visibility=all&per_page=100&sort=updated")
+    repos = [repo for repo in repos if not repo.get("archived")]
     language_totals: Counter[str] = Counter()
     for repo in repos:
         if repo.get("fork"):
@@ -167,8 +167,9 @@ def main() -> None:
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "user": {"login": viewer["login"], "name": viewer.get("name")},
         "total_contributions_last_year": calendar["totalContributions"],
-        "public_repository_count": len([r for r in repos if not r.get("fork")]),
-        "stars_received": sum(r.get("stargazers_count", 0) for r in repos if not r.get("fork")),
+        "public_repository_count": len([r for r in repos if not r.get("private") and not r.get("fork")]),
+        "private_repository_count": len([r for r in repos if r.get("private")]),
+        "stars_received_public_only": sum(r.get("stargazers_count", 0) for r in repos if not r.get("fork") and not r.get("private") ),
         "languages": dict(language_totals.most_common()),
     }
     write(DATA / "profile-data.json", json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
