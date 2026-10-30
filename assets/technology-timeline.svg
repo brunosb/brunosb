@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 230" role="img" aria-labelledby="title">
+  <title id="title">Technology evolution timeline</title>
+  <defs><style>
+    .bg{fill:#07111f}.axis{stroke:#334155;stroke-width:2}.dot{fill:#22c55e;stroke:#bbf7d0;stroke-width:3}.year{font:500 12px monospace;fill:#64748b}.name{font:600 16px Inter,Arial,sans-serif;fill:#f8fafc}.desc{font:400 12px Inter,Arial,sans-serif;fill:#94a3b8}.glow{filter:drop-shadow(0 0 7px #22c55e)}
+  </style></defs>
+  <rect width="1100" height="230" rx="16" class="bg"/>
+  <path class="axis" d="M90 118H1010"/>
+  <g class="glow">
+    <circle class="dot" cx="120" cy="118" r="8"/><circle class="dot" cx="320" cy="118" r="8"/><circle class="dot" cx="520" cy="118" r="8"/><circle class="dot" cx="720" cy="118" r="8"/><circle class="dot" cx="920" cy="118" r="8"/>
+  </g>
+  <g text-anchor="middle"><text class="year" x="120" y="89">FOUNDATIONS</text><text class="name" x="120" y="155">C / C++</text><text class="desc" x="120" y="178">systems · networks</text>
+  <text class="year" x="320" y="89">BACKEND</text><text class="name" x="320" y="155">Java</text><text class="desc" x="320" y="178">services · modeling</text>
+  <text class="year" x="520" y="89">PRODUCT</text><text class="name" x="520" y="155">JavaScript</text><text class="desc" x="520" y="178">web · mobile · desktop</text>
+  <text class="year" x="720" y="89">PLATFORM</text><text class="name" x="720" y="155">TypeScript</text><text class="desc" x="720" y="178">Node.js · APIs · UX</text>
+  <text class="year" x="920" y="89">NOW</text><text class="name" x="920" y="155">DevOps + AI</text><text class="desc" x="920" y="178">automation · production</text></g>
+  <text x="40" y="35" fill="#86efac" font-family="monospace" font-size="12">EVOLUTION / THE TOOLS CHANGE — THE BUILDER REMAINS</text>
+</svg>
