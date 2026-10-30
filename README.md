@@ -47,7 +47,7 @@ Hoje meu foco está em construir produtos confiáveis, reduzir trabalho operacio
 ## Stack
 
 <div align="center">
-  <img src="https://skillicons.dev/icons?i=ts,js,nodejs,react,python,java,cpp,docker,linux,postgres,git,github&perline=6" alt="Tecnologias: TypeScript, JavaScript, Node.js, React, Python, Java, C++, Docker, Linux, PostgreSQL, Git e GitHub" />
+  <img src="https://skillicons.dev/icons?i=ts,js,nodejs,react,python,java,cpp,rust,docker,linux,postgres,git,github&perline=7" alt="Tecnologias: TypeScript, JavaScript, Node.js, React, Python, Java, C++, Rust, Docker, Linux, PostgreSQL, Git e GitHub" />
 </div>
 
 ## Atividade no GitHub

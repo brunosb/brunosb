@@ -139,7 +139,7 @@ def generate_stats(user: dict, repos: list[dict], total_contributions: int, lang
     cards = []
     for i, (number, label, color) in enumerate(metrics):
         x = 28 + i * 254
-        cards.append(f'<rect x="{x}" y="52" width="230" height="96" rx="12" fill="#0f172a" stroke="#263449"/><text x="{x + 18}" y="96" fill="{color}" font:600 30px Inter,Arial,sans-serif>{esc(number)}</text><text x="{x + 18}" y="124" fill="#94a3b8" font:400 12px Inter,Arial,sans-serif>{esc(label)}</text>')
+        cards.append(f'<rect x="{x}" y="52" width="230" height="96" rx="12" fill="#0f172a" stroke="#263449"/><text x="{x + 18}" y="96" fill="{color}" style="font:600 30px Inter,Arial,sans-serif">{esc(number)}</text><text x="{x + 18}" y="124" fill="#94a3b8" style="font:400 12px Inter,Arial,sans-serif">{esc(label)}</text>')
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 175" role="img" aria-labelledby="title"><title id="title">GitHub profile metrics</title><rect width="100%" height="100%" rx="16" fill="#07111f"/><text x="28" y="28" fill="#86efac" font-family="monospace" font-size="12">PROFILE SIGNALS / LIVE FROM GITHUB</text>{''.join(cards)}</svg>'''
     write(ASSETS / "profile-stats.svg", svg)
 
