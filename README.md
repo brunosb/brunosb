@@ -50,7 +50,7 @@ Hoje meu foco está em construir produtos confiáveis, reduzir trabalho operacio
   <img src="https://skillicons.dev/icons?i=ts,js,nodejs,react,python,java,cpp,docker,linux,postgres,git,github&perline=6" alt="Tecnologias: TypeScript, JavaScript, Node.js, React, Python, Java, C++, Docker, Linux, PostgreSQL, Git e GitHub" />
 </div>
 
-## Atividade pública
+## Atividade no GitHub
 
 <div align="center">
   <img src="./assets/profile-stats.svg" alt="Métricas públicas do perfil no GitHub" width="100%" />
