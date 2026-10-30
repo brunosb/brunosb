@@ -9,13 +9,13 @@
 
 ## Sobre mim
 
-Sou **Bruno Silva Barbosa**, desenvolvedor e sócio da **Votu RFID**. Trabalho na interseção entre produto, software e infraestrutura: sistemas web, integrações RFID, automações, IA e operações em produção.
+Sou **Bruno Silva Barbosa**, desenvolvedor e sócio da **Votu RFID**. Construo software para problemas reais — do dispositivo em campo à aplicação, aos serviços e à infraestrutura que mantém tudo operando.
 
-```text
-Java / C / C++  →  JavaScript / TypeScript  →  Node.js  →  DevOps  →  IA
-```
+- **Domínios:** RFID, varejo, inventário, automação e produtos digitais.
+- **Atuação:** backend, frontend, mobile, desktop, integrações e infraestrutura.
+- **Foco atual:** sistemas confiáveis, redução de trabalho operacional e IA aplicada a produtos.
 
-Hoje meu foco está em construir produtos confiáveis, reduzir trabalho operacional com automação e transformar problemas reais de negócio em software executável.
+A linha do tempo abaixo mostra a trajetória das tecnologias; a seção **Stack** mostra as ferramentas presentes no trabalho e nos repositórios.
 
 ## O que estou construindo
 
@@ -38,7 +38,9 @@ Hoje meu foco está em construir produtos confiáveis, reduzir trabalho operacio
 | [Stock Cash Flow](https://github.com/brunosb/stock-cash-flow-server) | Gestão de estoque e fluxo de caixa | Node.js · TypeScript |
 | [LoTuS](https://github.com/lotus-tool/lotus-tool) | Modelagem gráfica de comportamento de software | Java · LTS |
 
-## Minha evolução técnica
+## Trajetória técnica
+
+A evolução abaixo é cronológica e representa as principais fases da minha formação e atuação técnica.
 
 <div align="center">
   <img src="./assets/technology-timeline.svg" alt="Linha do tempo das tecnologias usadas por Bruno" width="100%" />
