@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-10-30T00:32:33.354837+00:00",
+  "user": {
+    "login": "brunosb",
+    "name": "Bruno Silva Barbosa"
+  },
+  "total_contributions_last_year": 678,
+  "public_repository_count": 30,
+  "stars_received": 20,
+  "languages": {
+    "Jupyter Notebook": 4245390,
+    "Java": 1371027,
+    "TypeScript": 1087835,
+    "HTML": 774481,
+    "Python": 222475,
+    "Rust": 196348,
+    "CSS": 92791,
+    "JavaScript": 87111,
+    "NSIS": 32700,
+    "Objective-C": 15288,
+    "Shell": 11721,
+    "PowerShell": 11609,
+    "Dockerfile": 10194,
+    "Ruby": 9672,
+    "TeX": 8598,
+    "Starlark": 5776,
+    "Batchfile": 660,
+    "Swift": 113,
+    "C": 103
+  }
+}
