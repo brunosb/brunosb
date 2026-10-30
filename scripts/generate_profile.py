@@ -121,8 +121,8 @@ def generate_languages(languages: Counter[str]) -> None:
             f'<text x="830" y="{y + 12}" fill="{colors[index]}">{pct:.1f}%</text>'
         )
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 275" role="img" aria-labelledby="title">
-<title id="title">Languages across accessible repositories</title><defs><style>text{{font:400 13px Inter,Arial,sans-serif;fill:#cbd5e1}}.bar{{animation:grow .8s ease both}}@keyframes grow{{from{{transform:scaleX(0);transform-origin:left}}to{{transform:scaleX(1)}}}}</style></defs>
-<rect width="100%" height="100%" rx="16" fill="#07111f"/><text x="28" y="28" fill="#86efac" font-family="monospace" font-size="12">LANGUAGES / ACCESSIBLE REPOSITORIES (NAMES HIDDEN)</text><g>{''.join(bars)}</g>
+<title id="title">Languages across repositories Bruno contributed to</title><defs><style>text{{font:400 13px Inter,Arial,sans-serif;fill:#cbd5e1}}.bar{{animation:grow .8s ease both}}@keyframes grow{{from{{transform:scaleX(0);transform-origin:left}}to{{transform:scaleX(1)}}}}</style></defs>
+<rect width="100%" height="100%" rx="16" fill="#07111f"/><text x="28" y="28" fill="#86efac" font-family="monospace" font-size="12">CONTRIBUTOR STACK / LAST FIVE YEARS</text><g>{''.join(bars)}</g>
 </svg>'''
     write(ASSETS / "language-chart.svg", svg)
 
@@ -144,33 +144,71 @@ def generate_stats(user: dict, repos: list[dict], total_contributions: int, lang
     write(ASSETS / "profile-stats.svg", svg)
 
 
+def contributed_repositories() -> Counter[str]:
+    """Return repositories with contributions over the last five complete years.
+
+    Only aggregate language scores are published; repository names stay in memory.
+    """
+    today = dt.date.today()
+    aliases = []
+    for year_offset in range(5):
+        end = today - dt.timedelta(days=365 * year_offset)
+        start = end - dt.timedelta(days=364)
+        alias = f"y{year_offset}"
+        aliases.append((alias, start.isoformat(), end.isoformat()))
+    fields = []
+    for alias, start, end in aliases:
+        fields.append(
+            f'''{alias}: contributionsCollection(from:"{start}T00:00:00Z",to:"{end}T23:59:59Z") {{
+                commitContributionsByRepository(maxRepositories:100) {{ repository {{ nameWithOwner }} contributions {{ totalCount }} }}
+                pullRequestContributionsByRepository(maxRepositories:100) {{ repository {{ nameWithOwner }} contributions {{ totalCount }} }}
+                issueContributionsByRepository(maxRepositories:100) {{ repository {{ nameWithOwner }} contributions {{ totalCount }} }}
+            }}'''
+        )
+    data = graphql("query { viewer { " + " ".join(fields) + " } }")["viewer"]
+    totals: Counter[str] = Counter()
+    for alias, _, _ in aliases:
+        collection = data[alias]
+        for group in ("commitContributionsByRepository", "pullRequestContributionsByRepository", "issueContributionsByRepository"):
+            for item in collection[group]:
+                totals[item["repository"]["nameWithOwner"]] += item["contributions"]["totalCount"]
+    return totals
+
+
 def main() -> None:
     query = """query { viewer { login name contributionsCollection { contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } } } } }"""
     viewer = graphql(query)["viewer"]
-    repos = request("https://api.github.com/user/repos?visibility=all&per_page=100&sort=updated")
-    repos = [repo for repo in repos if not repo.get("archived")]
-    language_totals: Counter[str] = Counter()
-    for repo in repos:
-        if repo.get("fork"):
-            continue
+    all_repos = request("https://api.github.com/user/repos?visibility=all&per_page=100&sort=updated")
+    all_repos = [repo for repo in all_repos if not repo.get("archived")]
+    contribution_counts = contributed_repositories()
+    language_scores: Counter[str] = Counter()
+    language_repo_counts: Counter[str] = Counter()
+    contributed_count = 0
+    for full_name, contribution_count in contribution_counts.items():
         try:
-            language_data = request(repo["languages_url"])
-            for language, amount in language_data.items():
-                language_totals[language] += amount
+            repo = request(f"https://api.github.com/repos/{full_name}")
+            languages = request(repo["languages_url"])
+            total_bytes = sum(languages.values()) or 1
+            if languages:
+                contributed_count += 1
+            for language, amount in languages.items():
+                language_scores[language] += contribution_count * (amount / total_bytes)
+                language_repo_counts[language] += 1
         except Exception as exc:
-            print(f"warning: languages unavailable for {repo['name']}: {exc}")
+            print(f"warning: contribution repo unavailable: {full_name}: {exc}")
     calendar = viewer["contributionsCollection"]["contributionCalendar"]
     generate_heatmap(calendar)
-    generate_languages(language_totals)
-    generate_stats(viewer, repos, calendar["totalContributions"], language_totals)
+    generate_languages(language_scores)
+    generate_stats(viewer, all_repos, calendar["totalContributions"], language_scores)
     payload = {
         "generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "user": {"login": viewer["login"], "name": viewer.get("name")},
         "total_contributions_last_year": calendar["totalContributions"],
-        "public_repository_count": len([r for r in repos if not r.get("private") and not r.get("fork")]),
-        "private_repository_count": len([r for r in repos if r.get("private")]),
-        "stars_received_public_only": sum(r.get("stargazers_count", 0) for r in repos if not r.get("fork") and not r.get("private") ),
-        "languages": dict(language_totals.most_common()),
+        "contributed_repository_count_last_five_years": contributed_count,
+        "public_repository_count": len([r for r in all_repos if not r.get("private") and not r.get("fork")]),
+        "private_repository_count": len([r for r in all_repos if r.get("private")]),
+        "languages_by_contribution_weight": dict((k, round(v, 2)) for k, v in language_scores.most_common()),
+        "repositories_per_language": dict(language_repo_counts.most_common()),
     }
     write(DATA / "profile-data.json", json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(payload, ensure_ascii=False))

@@ -55,11 +55,11 @@ Hoje meu foco está em construir produtos confiáveis, reduzir trabalho operacio
 <div align="center">
   <img src="./assets/profile-stats.svg" alt="Métricas públicas do perfil no GitHub" width="100%" />
   <img src="./assets/activity-heatmap.svg" alt="Mapa real da atividade pública no GitHub nos últimos 12 meses" width="100%" />
-  <img src="./assets/language-chart.svg" alt="Distribuição agregada de linguagens em repositórios acessíveis, sem nomes ou links privados" width="100%" />
+  <img src="./assets/language-chart.svg" alt="Stack agregada dos repositórios onde houve contribuição nos últimos cinco anos" width="100%" />
 </div>
 
 <div align="center">
-  <sub>Dados agregados diretamente da API do GitHub. Repositórios privados entram apenas em contagens e distribuição de tecnologias; nomes e links não são publicados.</sub>
+  <sub>Stack calculada pelos repositórios onde houve contribuição nos últimos cinco anos. Dados privados entram apenas de forma agregada; nomes e links não são publicados.</sub>
 </div>
 
 <br />
