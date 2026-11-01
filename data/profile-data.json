@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T05:22:40.712615+00:00",
+  "generated_at": "2026-11-01T05:22:32.238890+00:00",
   "user": {
     "login": "brunosb",
     "name": "Bruno Silva Barbosa"
@@ -11,14 +11,14 @@
   "languages_by_contribution_weight": {
     "TypeScript": 2414.06,
     "Java": 87.98,
-    "JavaScript": 40.42,
+    "JavaScript": 39.48,
     "Shell": 20.37,
     "Kotlin": 15.03,
     "Python": 14.09,
     "Rust": 12.11,
     "CSS": 11.19,
-    "HTML": 2.91,
     "Dockerfile": 2.9,
+    "HTML": 2.85,
     "C++": 2.24,
     "Objective-C++": 2.08,
     "NSIS": 1.73,
