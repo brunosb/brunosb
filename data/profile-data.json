@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T05:22:52.200510+00:00",
+  "generated_at": "2026-11-07T05:23:02.403468+00:00",
   "user": {
     "login": "brunosb",
     "name": "Bruno Silva Barbosa"
@@ -9,9 +9,9 @@
   "public_repository_count": 30,
   "private_repository_count": 59,
   "languages_by_contribution_weight": {
-    "TypeScript": 2415.53,
+    "TypeScript": 2415.46,
     "Java": 87.98,
-    "JavaScript": 40.81,
+    "JavaScript": 40.88,
     "Shell": 20.37,
     "Rust": 16.63,
     "Kotlin": 15.03,
